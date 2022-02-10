@@ -17,15 +17,19 @@ public class FileManager {
             try {
                 fileReader = new FileReader(path);
                 input = new BufferedReader(fileReader);
-                Jugador jugador = new Jugador();
+
                 String line = input.readLine();
+
                 while(line!=null){
+                    Jugador jugador = new Jugador();
                    int coma = line.indexOf(",");
-                   jugador.setNombre(line.substring(0,coma-1));//Posicion anterior de la coma
+                   jugador.setNombre(line.substring(0,coma));//Posicion anterior de la coma
                     int ronda = Integer.parseInt(line.substring(coma+1));//Posicion despues de la coma
                     jugador.setRondaDeJuego(ronda);
                     frases.add(jugador);
+
                     line=input.readLine();
+
                 }
             } catch (FileNotFoundException e) {
                 e.printStackTrace();

@@ -5,8 +5,8 @@ public class Jugador {
     int rondaDeJuego;
 
     public Jugador(){
-        nombre = "";
-        rondaDeJuego = 0;
+        this.nombre = "";
+        this.rondaDeJuego = 1;
     }
 
     public String getNombre() {
