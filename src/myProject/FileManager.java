@@ -45,6 +45,14 @@ public class FileManager {
             return frases;
         }
 
+
+
+
+
+
+
+
+
     public void escribirTexto(String linea){
         try {
             fileWriter = new FileWriter("src/myProject/files/nombre.txt",true);

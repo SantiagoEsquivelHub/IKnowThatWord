@@ -18,5 +18,22 @@ public class ControlKnow {
         }
         return estaNombre;
     }
+    public void wordsForLevel (ArrayList <String> arrayJugadores, int  level){
+
+        if(level == 1){
+
+            for (int i = 1; i <=level*2; i++ ){
+                //total palabras nivel
+
+            }
+
+        }if (level == 2){
+
+        }
+
+    }
+
+
+
 
 }

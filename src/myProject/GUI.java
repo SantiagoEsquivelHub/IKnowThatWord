@@ -28,6 +28,15 @@ public class GUI extends JFrame {
     public static final String PATH_LECTURA_NOMBRE = "src/myProject/files/nombre.txt";
     public static final String MENSAJE_JUGADOR_NOMBRE = "Ingresa tu nombre para empezar el juego.";
     public static final String MENSAJE_JUGADOR_POST_NOMBRE = "Bienvenido";
+    /*
+    * Implementación de Array List
+    * **/
+
+    //Comentado mientras se crea la clase
+    //private ArrayList <PalabraNivel> allWords = fileManager.lecturaPalabra(  PATH_LECTURA_PALABRAS);
+
+    private ArrayList <PalabraNivel> LevelWords ;
+
     /**
      * Constructor of GUI class
      */
