@@ -1,1 +1,6 @@
+<<<<<<< HEAD
 sebastian
+=======
+Santi,1
+Sebas,1
+>>>>>>> 18a3565a2780574b6ab3797f37e3b89fd8020632

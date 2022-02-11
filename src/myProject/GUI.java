@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.Random;
 
 /**
@@ -14,6 +15,7 @@ import java.util.Random;
 public class GUI extends JFrame {
 
     private Header headerProject;
+    private ControlKnow controlKnow;
     private JPanel ingresarNombre, squareWord;
     private JButton initTimer;
     private Timer timer;
@@ -53,6 +55,7 @@ public class GUI extends JFrame {
         //Create Listener Object and Control Object
         escucha = new Escucha();
         fileManager = new FileManager();
+        controlKnow = new ControlKnow();
         //Set up JComponents
         headerProject = new Header("¡I Know That Word!", Color.BLACK);
 
@@ -123,28 +126,35 @@ public class GUI extends JFrame {
 
             //Escucha player's name
             if(e.getSource() == nombre){
+
+                //String dato = nombre.getText()+",1";
                 //Read the name
-                fileManager.escribirTexto(nombre.getText());
+
+                /*ArrayList<Jugador> arrayJugador = fileManager.lecturaFile(PATH_LECTURA_NOMBRE);
+               for (Jugador jugador : arrayJugador){
+                    System.out.println(jugador.getNombre());
+                    System.out.println(jugador.getRondaDeJuego());
+                    muestro la palabra,
+                }{
+
+}*/
+
+                boolean nombreJugador = controlKnow.pintarNombreJugador(fileManager.lecturaFile(PATH_LECTURA_NOMBRE),nombre.getText());
+                //System.out.println(nombre.getText());
 
 
-              /*  String nombreJugador = fileManager.lecturaFile(PATH_LECTURA_NOMBRE);
-                System.out.println(nombre.getText());
-                System.out.println(nombreJugador);
-
-                if(nombreJugador.equals(nombre.getText())){
+                if(nombreJugador){
 
                     //Hide the JFieldText
                     bienvenida.setVisible(false);
                     nombre.setVisible(false);
 
                     //Unhide the permanent message since that moment
-                    segundaBienvenida.setText("Bienvenido "+nombreJugador+"");
+                    segundaBienvenida.setText("Bienvenido "+nombre.getText()+"");
                     segundaBienvenida.setVisible(true);
 
-                }else{
-
                 }
-            }*/
+            }
 
 
 
@@ -170,4 +180,4 @@ public class GUI extends JFrame {
         }
     }
 }
-}
+
