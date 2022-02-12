@@ -45,10 +45,30 @@ public class FileManager {
             return frases;
         }
 
+    public ArrayList<String> lecturaFilePalabrasTotales(String path) {
+        ArrayList<String> palabras = new ArrayList<String>();
 
-
-
-
+        try {
+            fileReader = new FileReader(path);
+            input = new BufferedReader(fileReader);
+            String line = input.readLine();
+            while(line!=null){
+                palabras.add(line);
+                line=input.readLine();
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }finally{
+            try {
+                input.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return palabras;
+    }
 
 
 

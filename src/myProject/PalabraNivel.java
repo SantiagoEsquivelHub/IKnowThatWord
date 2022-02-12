@@ -2,15 +2,17 @@ package myProject;
 
 public class PalabraNivel {
     private String palabra;
-    private  Boolean memorizada;
+    private Boolean memorizada;
 
-    public PalabraNivel(String palabra) {
-        this.palabra = palabra;
+    public PalabraNivel() {
+        this.palabra = "";
+        this.memorizada = false;
     }
 
     public String getPalabra() {
         return palabra;
     }
+
     public Boolean getMemorizada() {
         return memorizada;
     }
