@@ -17,8 +17,9 @@ public class ModelKnow {
         fileManager = new FileManager();
         allWords = fileManager.lecturaFilePalabrasTotales(PATH_LECTURA_PALABRAS); //200 palabras
         jugador = new Jugador();
-        ronda = jugador.getRondaDeJuego();
+        ronda = fileManager.getRonda();
     }
+
 
     /**
      * It asks if the name of the typed player is the same as the one saved in the text file.
@@ -66,9 +67,11 @@ public class ModelKnow {
 
         for (int i = 0; i < arrayPalabrasPorNivel.size(); i++){
 
-            if(i > parada-1){
+            if(i < parada-1){
                 arrayPalabrasPorNivel.get(i).setMemorizada(true);// se cambia el atributo a true
+
             }
+            System.out.println(arrayPalabrasPorNivel.get(i).getMemorizada());
         }
         return arrayPalabrasPorNivel;
     }
@@ -285,7 +288,7 @@ public class ModelKnow {
                 break;
             case 10:
                 mensaje = "En este nivel tendrás que recordar 100 palabras de un total de 200 palabras.\n" +
-                        " Para superar el nivel tendrás que lograr 10% de aciertos.";
+                        " Para superar el nivel tendrás que lograr 100% de aciertos.";
                 break;
             case 11:
                 mensaje = "Ganaste todos los niveles jugador, eres un crack!";
@@ -300,7 +303,7 @@ public class ModelKnow {
      */
 
     public void palabraEsMemorizada(PalabraNivel palabra){
-        if(palabra.getMemorizada()){
+        if(palabra.getMemorizada() == true){
             contadorAciertos++;
             System.out.println(contadorAciertos);
         }
@@ -337,15 +340,6 @@ public class ModelKnow {
         return ronda;
     }
 
-    /**
-     * Advance round in the game.
-     */
-
-    public void cambiarRonda(){
-        int rondaActual = jugador.getRondaDeJuego();
-        jugador.setRondaDeJuego(rondaActual+1);
-        System.out.println(rondaActual+1);
-    }
 
     /**
      * Reset the number of ContadorAciertos.

@@ -8,10 +8,26 @@ public class FileManager {
     private BufferedReader input;
     private FileWriter fileWriter;
     private BufferedWriter output;
+    private int ronda;
 
+    public int getRonda() {
+        return ronda;
+    }
 
+    public void setRonda(int ronda) {
+        this.ronda = ronda;
+    }
 
-        public ArrayList<Jugador> lecturaFile(String path) {
+    /**
+     * Advance round in the game.
+     */
+
+    public void cambiarRonda(){
+        ronda++;
+        System.out.println(ronda);
+    }
+
+    public ArrayList<Jugador> lecturaFile(String path) {
             ArrayList<Jugador> frases = new ArrayList<Jugador>();
 
             try {
@@ -24,7 +40,10 @@ public class FileManager {
                     Jugador jugador = new Jugador();
                    int coma = line.indexOf(",");
                    jugador.setNombre(line.substring(0,coma));//Posicion anterior de la coma
-                    int ronda = Integer.parseInt(line.substring(coma+1));//Posicion despues de la coma
+                    ronda = Integer.parseInt(line.substring(coma+1));//Posicion despues de la coma
+
+                    System.out.println("RONDA: "+ronda+"");
+
                     jugador.setRondaDeJuego(ronda);
                     frases.add(jugador);
 
@@ -88,4 +107,10 @@ public class FileManager {
         }
     }
 
+
+
 }
+
+
+
+
