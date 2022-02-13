@@ -71,8 +71,6 @@ public class FileManager {
     }
 
 
-
-
     public void escribirTexto(String linea){
         try {
             fileWriter = new FileWriter("src/myProject/files/nombre.txt",true);
