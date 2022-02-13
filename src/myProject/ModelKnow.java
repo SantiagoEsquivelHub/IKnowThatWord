@@ -10,13 +10,14 @@ public class ModelKnow {
     private ArrayList<PalabraNivel> arrayPalabrasPorNivel;
     private ArrayList<PalabraNivel> palabrasParaJugar;
     private Jugador jugador;
-    private int puntosRonda;
+    private int puntosRonda, contadorAciertos, ronda, palabrasParaMemorizar;
     private String mensaje;
 
     public ModelKnow() {
         fileManager = new FileManager();
         allWords = fileManager.lecturaFilePalabrasTotales(PATH_LECTURA_PALABRAS); //200 palabras
         jugador = new Jugador();
+        ronda = jugador.getRondaDeJuego();
     }
 
     /**
@@ -72,7 +73,9 @@ public class ModelKnow {
         return arrayPalabrasPorNivel;
     }
 
-
+    /**
+    * Create arrangements of memorized words and words by level according to the player's round.
+    * */
 
     public void crearArreglos(int rondaDeJuego){
         switch (rondaDeJuego){
@@ -120,21 +123,85 @@ public class ModelKnow {
 
     }
 
+    /**
+     * Return palabraNivel about the index in palabrasParaJugar array.
+     */
+
     public String devolverPalabraMemorizar(int index){
         return palabrasParaJugar.get(index).getPalabra();
     }
+
+    public PalabraNivel devolverPalabraMemorizarObj(int index){
+        return palabrasParaJugar.get(index);
+    }
+
+    /**
+     * Return the size of palabrasParaJugar array.
+     */
 
     public int sizeArrayPalabrasMemorizar(){
         return palabrasParaJugar.size();
     }
 
+    /**
+     * Return palabraNivel about the index in arrayPalabrasPorNivel array.
+     */
+
     public String devolverPalabraNivel(int index){
         return arrayPalabrasPorNivel.get(index).getPalabra();
     }
 
+    /**
+     * Return the size of arrayPalabrasPorNivel array.
+     */
+
     public int sizeArrayPalabrasNivel(){
         return arrayPalabrasPorNivel.size();
     }
+
+    /**
+     * Return the number of memorized words per round.
+     */
+
+    public int palabrasMemorizarPorRonda(int rondaDeJuego){
+        switch (rondaDeJuego){
+            case 1:
+                palabrasParaMemorizar = 10;
+                break;
+            case 2:
+                palabrasParaMemorizar = 20;
+                break;
+            case 3:
+                palabrasParaMemorizar = 25;
+                break;
+            case 4:
+                palabrasParaMemorizar = 30;
+                break;
+            case 5:
+                palabrasParaMemorizar = 35;
+                break;
+            case 6:
+                palabrasParaMemorizar = 40;
+                break;
+            case 7:
+                palabrasParaMemorizar = 50;
+                break;
+            case 8:
+                palabrasParaMemorizar = 60;
+                break;
+            case 9:
+                palabrasParaMemorizar = 70;
+                break;
+            case 10:
+                palabrasParaMemorizar = 100;
+                break;
+        }
+        return palabrasParaMemorizar;
+    }
+
+    /**
+     * Points needed to pass the round.
+     */
 
     public int puntosPorRonda(int rondaDeJuego){
         switch (rondaDeJuego){
@@ -171,6 +238,10 @@ public class ModelKnow {
         }
         return puntosRonda;
     }
+
+    /**
+     * An initial message is displayed depending on the round you are in.
+     */
 
     public String mensajePorRonda(int rondaDeJuego){
 
@@ -216,9 +287,72 @@ public class ModelKnow {
                 mensaje = "En este nivel tendrás que recordar 100 palabras de un total de 200 palabras.\n" +
                         " Para superar el nivel tendrás que lograr 10% de aciertos.";
                 break;
+            case 11:
+                mensaje = "Ganaste todos los niveles jugador, eres un crack!";
+                break;
         }
 
         return mensaje;
+    }
+
+    /**
+     * If the word is memorized, it is added to a hit counter and return a message.
+     */
+
+    public void palabraEsMemorizada(PalabraNivel palabra){
+        if(palabra.getMemorizada()){
+            contadorAciertos++;
+            System.out.println(contadorAciertos);
+        }
+
+    }
+
+    /**
+     * If the word is not memorized, it is added to a hit counter and return a message.
+     */
+
+    public void palabraNoEsMemorizada(PalabraNivel palabra){
+        if(palabra.getMemorizada() == false){
+            contadorAciertos++;
+            System.out.println(contadorAciertos);
+        }
+
+    }
+
+
+
+    /**
+     * Return the number of hits made in the round.
+     */
+
+    public int retornaAciertosActuales(){
+        return contadorAciertos;
+    }
+
+    /**
+     * Return the player's current round.
+     */
+
+    public int retornaRondaJugador(){
+        return ronda;
+    }
+
+    /**
+     * Advance round in the game.
+     */
+
+    public void cambiarRonda(){
+        int rondaActual = jugador.getRondaDeJuego();
+        jugador.setRondaDeJuego(rondaActual+1);
+        System.out.println(rondaActual+1);
+    }
+
+    /**
+     * Reset the number of ContadorAciertos.
+     */
+
+    public void reiniciarContadorAciertos(){
+        contadorAciertos = 0;
     }
 
 

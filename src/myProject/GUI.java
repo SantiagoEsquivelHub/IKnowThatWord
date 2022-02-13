@@ -83,7 +83,7 @@ public class GUI extends JFrame {
         //Write player's name
         ingresarNombre = new JPanel();
         ingresarNombre.setBorder(BorderFactory.createTitledBorder("¡Bienvenido!"));
-        ingresarNombre.setPreferredSize(new Dimension(600,60));
+        ingresarNombre.setPreferredSize(new Dimension(700,60));
         constraints.gridx=0;
         constraints.gridy=1;
         constraints.gridwidth=2;
@@ -108,7 +108,7 @@ public class GUI extends JFrame {
 
         juego = new JPanel();
         juego.setBorder(BorderFactory.createTitledBorder("¡I know that word!"));
-        juego.setPreferredSize(new Dimension(600,200));
+        juego.setPreferredSize(new Dimension(700,200));
         constraints.gridx=0;
         constraints.gridy=2;
         constraints.gridwidth=2;
@@ -140,12 +140,13 @@ public class GUI extends JFrame {
         juego.add(mostrarPalabra);
 
 
+
         initGame = new JButton("JUGAR");
         initGame.addActionListener(escucha);
         initGame.setVisible(false);
         juego.add(initGame);
-        timerPalabrasMemorizar = new Timer(1000,escucha);
-        timerPalabrasNivel = new Timer(1000,escucha);
+        timerPalabrasMemorizar = new Timer(2000,escucha);
+        timerPalabrasNivel = new Timer(2000,escucha);
 
 
     }
@@ -168,10 +169,12 @@ public class GUI extends JFrame {
         private Random random;
         private int counterMemorizada, counterNivel;
 
+
         public Escucha(){
             random = new Random();
             counterMemorizada=1;
             counterNivel=1;
+
         }
 
         @Override
@@ -180,9 +183,6 @@ public class GUI extends JFrame {
             if(e.getSource()==timerPalabrasMemorizar){
                 if(counterMemorizada < modelKnow.sizeArrayPalabrasMemorizar()/2){
                     mostrarPalabra.setText(modelKnow.devolverPalabraMemorizar(counterMemorizada));
-                    if(e.getSource()==botonSi){
-
-                    }
                     counterMemorizada++;
                 }else{
                     timerPalabrasMemorizar.stop();
@@ -192,6 +192,8 @@ public class GUI extends JFrame {
 
                             "PopUp Dialog",
                             JOptionPane.INFORMATION_MESSAGE);
+                    botonSi.setVisible(true);
+                    botonNo.setVisible(true);
                     timerPalabrasNivel.start();
 
                 }
@@ -199,7 +201,20 @@ public class GUI extends JFrame {
 
             if(e.getSource()==timerPalabrasNivel){
                 if(counterNivel < modelKnow.sizeArrayPalabrasNivel()){
+                   /* if(e.getSource()==botonSi){
+                        //modelKnow.palabraEsMemorizada(modelKnow.devolverPalabraMemorizarObj(0));
+                        modelKnow.palabraEsMemorizada(modelKnow.devolverPalabraMemorizarObj(counterMemorizada));
+
+                    }
+
+                    if(e.getSource()==botonNo){
+                        //modelKnow.palabraNoEsMemorizada(modelKnow.devolverPalabraMemorizarObj(0));
+                        modelKnow.palabraNoEsMemorizada(modelKnow.devolverPalabraMemorizarObj(counterMemorizada));
+
+                    }*/
+
                     mostrarPalabra.setText(modelKnow.devolverPalabraNivel(counterNivel));
+
                     counterNivel++;
                 }else{
                     timerPalabrasNivel.stop();
@@ -247,19 +262,23 @@ public class GUI extends JFrame {
             if(e.getSource()==initGame){
                 initGame.setVisible(false);
                 mostrarPalabra.setVisible(true);
-                botonSi.setVisible(true);
-                botonNo.setVisible(true);
 
-                String mensajeRonda = modelKnow.mensajePorRonda(7);
+
+
+                System.out.println(modelKnow.retornaRondaJugador());
+
+                String mensajeRonda = modelKnow.mensajePorRonda(modelKnow.retornaRondaJugador());
                 mostrarMensajeRonda.setVisible(true);
                 mostrarMensajeRonda.setText(mensajeRonda);
 
-                modelKnow.crearArreglos(7);
+
+                modelKnow.crearArreglos(modelKnow.retornaRondaJugador());
 
 
                 mostrarPalabra.setText(modelKnow.devolverPalabraMemorizar(0));
+
                 JOptionPane.showMessageDialog(null,
-                        "10 PALABRAS A MEMORIZAR",
+                        ""+modelKnow.palabrasMemorizarPorRonda(modelKnow.retornaRondaJugador())+" PALABRAS A MEMORIZAR",
 
                         "PopUp Dialog",
                         JOptionPane.INFORMATION_MESSAGE);
@@ -278,8 +297,62 @@ public class GUI extends JFrame {
 
             }
 
+            if(e.getSource()==botonSi){
+                //modelKnow.palabraEsMemorizada(modelKnow.devolverPalabraMemorizarObj(0));
+                modelKnow.palabraEsMemorizada(modelKnow.devolverPalabraMemorizarObj(counterMemorizada));
+
+            }
+
+            if(e.getSource()==botonNo){
+                //modelKnow.palabraNoEsMemorizada(modelKnow.devolverPalabraMemorizarObj(0));
+                modelKnow.palabraNoEsMemorizada(modelKnow.devolverPalabraMemorizarObj(counterMemorizada));
+
+            }
+
             if(e.getSource()==validar){
-                modelKnow.puntosPorRonda(1);
+                int puntosPasarRonda = modelKnow.puntosPorRonda(modelKnow.retornaRondaJugador());
+                int puntosActuales = modelKnow.retornaAciertosActuales();
+                if(puntosActuales >= puntosPasarRonda){
+
+                    int opcion = JOptionPane.showConfirmDialog(null, "PASASTE DE RONDA\n"
+                                    + "Obtuviste " + puntosActuales + " de " + puntosPasarRonda + " para pasar de ronda\n"
+                                    + "¿Quienes jugar la siguiente ronda ahora?",
+                            "PopUp Dialog", JOptionPane.YES_NO_OPTION);
+                    validar.setVisible(false);
+                    modelKnow.reiniciarContadorAciertos();//reiniciamos contador para la ronda de juego nueva
+                    modelKnow.cambiarRonda();
+
+
+                    if(opcion == JOptionPane.YES_OPTION){
+                        initGame.setVisible(true);
+
+                    }else{
+                        if(opcion == JOptionPane.NO_OPTION){
+                            System.exit(0);
+                        }
+                    }
+
+
+
+                }else{
+                    int opcion = JOptionPane.showConfirmDialog(null, "PERDISTE LA RONDA\n"
+                                    + "Obtuviste " + puntosActuales + " de " + puntosPasarRonda + " para pasar de ronda\n"
+                                    + "¿Quienes jugar la siguiente repetir la ronda ahora?",
+                            "PopUp Dialog", JOptionPane.YES_NO_OPTION);
+
+                    modelKnow.reiniciarContadorAciertos();//reiniciamos contador para volver a jugar la ronda anterior
+
+                    if(opcion == JOptionPane.YES_OPTION){
+                    initGame.setVisible(true);
+
+                    }else{
+                        if(opcion == JOptionPane.NO_OPTION){
+                            System.exit(0);
+                        }
+                    }
+
+                }
+
 
             }
 
