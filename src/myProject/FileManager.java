@@ -8,24 +8,7 @@ public class FileManager {
     private BufferedReader input;
     private FileWriter fileWriter;
     private BufferedWriter output;
-    private int ronda;
 
-    public int getRonda() {
-        return ronda;
-    }
-
-    public void setRonda(int ronda) {
-        this.ronda = ronda;
-    }
-
-    /**
-     * Advance round in the game.
-     */
-
-    public void cambiarRonda(){
-        ronda++;
-        System.out.println(ronda);
-    }
 
     public ArrayList<Jugador> lecturaFile(String path) {
             ArrayList<Jugador> frases = new ArrayList<Jugador>();
@@ -40,7 +23,7 @@ public class FileManager {
                     Jugador jugador = new Jugador();
                    int coma = line.indexOf(",");
                    jugador.setNombre(line.substring(0,coma));//Posicion anterior de la coma
-                    ronda = Integer.parseInt(line.substring(coma+1));//Posicion despues de la coma
+                    int ronda = Integer.parseInt(line.substring(coma+1));//Posicion despues de la coma
 
                     System.out.println("RONDA: "+ronda+"");
 
@@ -63,6 +46,44 @@ public class FileManager {
             }
             return frases;
         }
+
+    public void lecturaEscribirRonda(String path, String rondaVieja, String rondaNueva) {
+        ArrayList<Jugador> frases = new ArrayList<Jugador>();
+
+        try {
+            fileReader = new FileReader(path);
+            input = new BufferedReader(fileReader);
+
+            String line = input.readLine();
+
+
+                Jugador jugador = new Jugador();
+                int coma = line.indexOf(",");
+                jugador.setNombre(line.substring(0,coma));//Posicion anterior de la coma
+                int rondaEliminar = Integer.parseInt(line.substring(coma+1));//Posicion despues de la coma
+                String rondaEliminarString = String.valueOf(rondaEliminar);
+                line.replace(rondaVieja, rondaNueva);
+
+
+                escribirTexto(rondaNueva);
+                jugador.setRondaDeJuego(Integer.parseInt(rondaNueva));
+
+
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }finally{
+            try {
+                input.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+
 
     public ArrayList<String> lecturaFilePalabrasTotales(String path) {
         ArrayList<String> palabras = new ArrayList<String>();

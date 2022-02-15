@@ -20,7 +20,7 @@ public class GUI extends JFrame {
     private Timer timerPalabrasMemorizar, timerPalabrasNivel;
     private Escucha escucha;
     private JTextField nombre;
-    private JLabel bienvenida, segundaBienvenida, mostrarPalabra;
+    private JLabel bienvenida, segundaBienvenida, mostrarPalabra, score, level;
     private JTextArea mostrarMensajeRonda, mostrarMensajeInicial;
     private JTextArea areaNombre;
     private FileManager fileManager;
@@ -127,12 +127,12 @@ public class GUI extends JFrame {
         botonSi = new JButton("SI");
         botonSi.addActionListener(escucha);
         botonSi.setVisible(false);
-        juego.add(botonSi);
+        juego.add(botonSi, BorderLayout.SOUTH);
 
         botonNo = new JButton("NO");
         botonNo.addActionListener(escucha);
         botonNo.setVisible(false);
-        juego.add(botonNo);
+        juego.add(botonNo, BorderLayout.SOUTH);
 
         validar = new JButton("VALIDAR");
         validar.addActionListener(escucha);
@@ -143,7 +143,13 @@ public class GUI extends JFrame {
         mostrarPalabra.setVisible(false);
         juego.add(mostrarPalabra);
 
+        score = new JLabel();
+        score.setVisible(false);
+        juego.add(score);
 
+        level = new JLabel();
+        level.setVisible(false);
+        juego.add(level);
 
         initGame = new JButton("JUGAR");
         initGame.addActionListener(escucha);
@@ -206,20 +212,12 @@ public class GUI extends JFrame {
 
             if(e.getSource()==timerPalabrasNivel){
                 if(counterNivel < modelKnow.sizeArrayPalabrasNivel()){
-                   /* if(e.getSource()==botonSi){
-                        //modelKnow.palabraEsMemorizada(modelKnow.devolverPalabraMemorizarObj(0));
-                        modelKnow.palabraEsMemorizada(modelKnow.devolverPalabraMemorizarObj(counterMemorizada));
 
-                    }
-
-                    if(e.getSource()==botonNo){
-                        //modelKnow.palabraNoEsMemorizada(modelKnow.devolverPalabraMemorizarObj(0));
-                        modelKnow.palabraNoEsMemorizada(modelKnow.devolverPalabraMemorizarObj(counterMemorizada));
-
-                    }*/
-
+                    level.setVisible(true);
+                    level.setText("Ronda: "+modelKnow.getRonda()+"");
+                    score.setVisible(true);
+                    score.setText("Puntaje: "+modelKnow.retornaAciertosActuales()+"");
                     mostrarPalabra.setText(modelKnow.devolverPalabraNivel(counterNivel));
-
                     counterNivel++;
                 }else{
                     timerPalabrasNivel.stop();
@@ -234,6 +232,7 @@ public class GUI extends JFrame {
             if(e.getSource() == nombre){
 
                 boolean nombreJugador = modelKnow.pintarNombreJugador(fileManager.lecturaFile(PATH_LECTURA_NOMBRE),nombre.getText());
+                //modelKnow.getRonda();
 
                 if(nombreJugador){
 
@@ -263,36 +262,26 @@ public class GUI extends JFrame {
 
             if(e.getSource()==initGame){
 
-                //PRIMERA PARTE DEL JUEGO, SE MUESTRAS LAS PALABRAS CON EL ATRIBUTO MEMORIZADA EN TRUE
-
-               /* for (int i = 0; i < modelKnow.sizeArrayPalabrasNivel(); i++){
-                    mostrarPalabra.setVisible(true);
-                    //mostrarPalabra.setText(palabrasParaJugar.get(i).getPalabra());
-                    System.out.println("palabra");
-                    System.out.println(modelKnow.getPalabrasParaJugar().get(i).getPalabra());
-                    System.out.println("memorizada");
-                    System.out.println(modelKnow.getPalabrasParaJugar().get(i).getMemorizada());
-                }*/
                 fileManager.lecturaFile(PATH_LECTURA_NOMBRE);
                 initGame.setVisible(false);
                 mostrarPalabra.setVisible(true);
                 mostrarMensajeInicial.setVisible(false);
 
 
-                System.out.println(fileManager.getRonda());
+                //System.out.println(fileManager.getRonda());
 
-                String mensajeRonda = modelKnow.mensajePorRonda(fileManager.getRonda());
+                String mensajeRonda = modelKnow.mensajePorRonda(modelKnow.getRonda());
                 mostrarMensajeRonda.setVisible(true);
                 mostrarMensajeRonda.setText(mensajeRonda);
 
 
-                modelKnow.crearArreglos(fileManager.getRonda());
+                modelKnow.crearArreglos(modelKnow.getRonda());
 
 
                 mostrarPalabra.setText(modelKnow.devolverPalabraMemorizar(0));
 
                 JOptionPane.showMessageDialog(null,
-                        ""+modelKnow.palabrasMemorizarPorRonda(fileManager.getRonda())+" PALABRAS A MEMORIZAR",
+                        ""+modelKnow.palabrasMemorizarPorRonda(modelKnow.getRonda())+" PALABRAS A MEMORIZAR",
 
                         "PopUp Dialog",
                         JOptionPane.INFORMATION_MESSAGE);
@@ -325,7 +314,7 @@ public class GUI extends JFrame {
 
 
             if(e.getSource()==validar){
-                int puntosPasarRonda = modelKnow.puntosPorRonda(fileManager.getRonda());
+                int puntosPasarRonda = modelKnow.puntosPorRonda(modelKnow.getRonda());
                 int puntosActuales = modelKnow.retornaAciertosActuales();
                 if(puntosActuales >= puntosPasarRonda){
 
@@ -333,16 +322,31 @@ public class GUI extends JFrame {
                                     + "Obtuviste " + puntosActuales + " de " + puntosPasarRonda + " para pasar de ronda\n"
                                     + "¿Quienes jugar la siguiente ronda ahora?",
                             "PopUp Dialog", JOptionPane.YES_NO_OPTION);
-
+                    level.setVisible(false);
+                    score.setVisible(false);
                     validar.setVisible(false);
                     modelKnow.reiniciarContadorAciertos();//reiniciamos contador para la ronda de juego nueva
                     counterMemorizada = 1;//reiniciamos contador del ciclo del timer
                     counterNivel = 1;
-                    fileManager.cambiarRonda();
+                    /*int rondaViejaInt = modelKnow.getRonda();
+                    String rondaViejaString = String.valueOf(rondaViejaInt);*/
+                    modelKnow.cambiarRonda();
+
+                    //Change text file.
+                    /*int rondaNuevaInt = modelKnow.getRonda();
+                    String rondaNuevaString = String.valueOf(rondaNuevaInt);
+
+                    boolean estaRonda = modelKnow.pintarRondaJugador(fileManager.lecturaFile(PATH_LECTURA_NOMBRE), rondaNuevaInt);
+
+                    if(estaRonda == false){
+                        fileManager.lecturaEscribirRonda(PATH_LECTURA_NOMBRE, rondaViejaString, rondaNuevaString);
+
+                    }*/
+
 
 
                     if(opcion == JOptionPane.YES_OPTION){
-                        String mensajeRonda = modelKnow.mensajePorRonda(fileManager.getRonda());
+                        String mensajeRonda = modelKnow.mensajePorRonda(modelKnow.getRonda());
                         mostrarMensajeRonda.setText(mensajeRonda);
                         initGame.setVisible(true);
 

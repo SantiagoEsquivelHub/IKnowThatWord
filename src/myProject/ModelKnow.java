@@ -17,7 +17,7 @@ public class ModelKnow {
         fileManager = new FileManager();
         allWords = fileManager.lecturaFilePalabrasTotales(PATH_LECTURA_PALABRAS); //200 palabras
         jugador = new Jugador();
-        ronda = fileManager.getRonda();
+        ronda = 1;
     }
 
 
@@ -32,11 +32,53 @@ public class ModelKnow {
             if(arrayJugadores.get(i).getNombre().equals(nombreABuscar)){
 
                 estaNombre = true;
+                ronda = arrayJugadores.get(i).getRondaDeJuego();
+                System.out.println("RONDA MODEL "+ronda+"");
                 break;
             }
+
         }
         return estaNombre;
     }
+
+    /**
+     * It asks if the round of the player is the same as the one saved in the text file.
+     */
+
+    public boolean pintarRondaJugador(ArrayList<Jugador> arrayJugadores, int rondaABuscar){
+        //Inicializamos la variable de nombre
+        boolean estaRonda = false;
+        for(int i = 0; i < arrayJugadores.size(); i++){
+            if(arrayJugadores.get(i).getNombre().equals(rondaABuscar)){
+
+                estaRonda = true;
+                break;
+            }
+
+        }
+        return estaRonda;
+    }
+
+
+
+    /**
+     * Return the round of the player.
+     */
+
+    public int getRonda(){
+        return ronda;
+    }
+
+
+    /**
+     * Advance round in the game.
+     */
+
+    public void cambiarRonda(){
+        ronda++;
+        System.out.println(ronda);
+    }
+
 
     /**
      * Extract words from the text file to an array according to the level at which it is
@@ -66,11 +108,16 @@ public class ModelKnow {
     public ArrayList<PalabraNivel> palabrasParaJugar (ArrayList <PalabraNivel> arrayPalabrasPorNivel, int parada){
 
         for (int i = 0; i < arrayPalabrasPorNivel.size(); i++){
-
-            if(i < parada-1){
+        int parar= 0;
+            /*if(i < parada-1){
                 arrayPalabrasPorNivel.get(i).setMemorizada(true);// se cambia el atributo a true
 
+            }*/
+            if (i % 2 == 0) {
+                arrayPalabrasPorNivel.get(i).setMemorizada(true);// se cambia el atributo a true
             }
+
+
             System.out.println(arrayPalabrasPorNivel.get(i).getMemorizada());
         }
         return arrayPalabrasPorNivel;
