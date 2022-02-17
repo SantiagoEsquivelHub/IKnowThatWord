@@ -33,32 +33,13 @@ public class ModelKnow {
 
                 estaNombre = true;
                 ronda = arrayJugadores.get(i).getRondaDeJuego();
-                System.out.println("RONDA MODEL "+ronda+"");
+                //System.out.println("RONDA MODEL "+ronda+"");
                 break;
             }
 
         }
         return estaNombre;
     }
-
-    /**
-     * It asks if the round of the player is the same as the one saved in the text file.
-     */
-
-    public boolean pintarRondaJugador(ArrayList<Jugador> arrayJugadores, int rondaABuscar){
-        //Inicializamos la variable de nombre
-        boolean estaRonda = false;
-        for(int i = 0; i < arrayJugadores.size(); i++){
-            if(arrayJugadores.get(i).getNombre().equals(rondaABuscar)){
-
-                estaRonda = true;
-                break;
-            }
-
-        }
-        return estaRonda;
-    }
-
 
 
     /**
@@ -68,6 +49,10 @@ public class ModelKnow {
     public int getRonda(){
         return ronda;
     }
+
+    /**
+     * Change the round of the player.
+     */
 
     public void setRonda(int ronda) {
         this.ronda = ronda;
@@ -82,7 +67,7 @@ public class ModelKnow {
         ArrayList<String> jugadoresString = new ArrayList<String>();
         setRonda(ronda+1);
         for(int i = 0; i < jugadores.size(); i++){
-        System.out.println("nombreJugador: "+nombreJugador+"");
+        //System.out.println("nombreJugador: "+nombreJugador+"");
             if(jugadores.get(i).getNombre().equals(nombreJugador)){
 
                 String jugadorCompleto = "";
@@ -91,7 +76,7 @@ public class ModelKnow {
                 jugadoresString.add(jugadorCompleto);
 
             }else{
-                System.out.println("nombreJugador: "+jugadores.get(i).getNombre()+"");
+                //System.out.println("nombreJugador: "+jugadores.get(i).getNombre()+"");
                 String jugadorCompleto = "";
 
                 jugadorCompleto = ""+jugadores.get(i).getNombre()+","+jugadores.get(i).getRondaDeJuego()+"";
@@ -107,7 +92,7 @@ public class ModelKnow {
 
 
 
-        System.out.println(ronda);
+        //System.out.println(ronda);
     }
 
 
@@ -120,13 +105,21 @@ public class ModelKnow {
 
         ArrayList <PalabraNivel> wordsForLevel = new ArrayList<PalabraNivel>();
         Random aleatorio = new Random();
-        int usar = aleatorio.nextInt(palabras.size()+1);
+        int usar = aleatorio.nextInt(palabras.size());
 
-        for (int i = 1; i <= level; i++){
-            PalabraNivel palabraNivel = new PalabraNivel();
-            palabraNivel.setPalabra(palabras.get(usar));
-            wordsForLevel.add(palabraNivel);
-            palabras.remove(usar);
+        for (int i = 0; i < level; i++){
+
+            if(level == 200){
+                PalabraNivel palabraNivel = new PalabraNivel();
+                palabraNivel.setPalabra(palabras.get(i));
+                System.out.println(i);
+                wordsForLevel.add(palabraNivel);
+            }else{
+                PalabraNivel palabraNivel = new PalabraNivel();
+                palabraNivel.setPalabra(palabras.get(usar));
+                wordsForLevel.add(palabraNivel);
+                palabras.remove(usar);
+            }
         }
         return wordsForLevel;
     }
@@ -149,7 +142,7 @@ public class ModelKnow {
             }
 
 
-            System.out.println(arrayPalabrasPorNivel.get(i).getMemorizada());
+            //System.out.println(arrayPalabrasPorNivel.get(i).getMemorizada());
         }
         return arrayPalabrasPorNivel;
     }
@@ -211,6 +204,10 @@ public class ModelKnow {
     public String devolverPalabraMemorizar(int index){
         return palabrasParaJugar.get(index).getPalabra();
     }
+
+    /**
+     * Return palabraNivel Object about the index in palabrasParaJugar array.
+     */
 
     public PalabraNivel devolverPalabraMemorizarObj(int index){
         return palabrasParaJugar.get(index);
@@ -328,8 +325,7 @@ public class ModelKnow {
 
         switch (rondaDeJuego){
             case 1:
-                mensaje = "En este nivel tendrás que recordar 10 palabras \n" +
-                        "de un total de 20 palabras.\n" +
+                mensaje = "En este nivel tendrás que recordar 10 palabras de un total de 20 palabras.\n" +
                         "Para superar el nivel tendrás que lograr 70% de aciertos.\n";
                 break;
             case 2:
@@ -383,7 +379,7 @@ public class ModelKnow {
     public void palabraEsMemorizada(PalabraNivel palabra){
         if(palabra.getMemorizada() == true){
             contadorAciertos++;
-            System.out.println(contadorAciertos);
+            //System.out.println(contadorAciertos);
         }
 
     }
@@ -395,7 +391,7 @@ public class ModelKnow {
     public void palabraNoEsMemorizada(PalabraNivel palabra){
         if(palabra.getMemorizada() == false){
             contadorAciertos++;
-            System.out.println(contadorAciertos);
+            //System.out.println(contadorAciertos);
         }
 
     }

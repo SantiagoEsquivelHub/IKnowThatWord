@@ -25,7 +25,7 @@ public class FileManager {
                    jugador.setNombre(line.substring(0,coma));//Posicion anterior de la coma
                     int ronda = Integer.parseInt(line.substring(coma+1));//Posicion despues de la coma
 
-                    System.out.println("RONDA: "+ronda+"");
+                    //System.out.println("RONDA: "+ronda+"");
 
                     jugador.setRondaDeJuego(ronda);
                     jugadores.add(jugador);

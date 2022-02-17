@@ -15,8 +15,8 @@ import java.util.Random;
 public class GUI extends JFrame {
     private ModelKnow modelKnow;
     private Header headerProject;
-    private JPanel ingresarNombre, juego, botones, info;
-    private JButton initGame,botonSi,botonNo, validar;
+    private JPanel ingresarNombre, juego;
+    private JButton initGame,botonSi,botonNo, validar, reset;
     private Timer timerPalabrasMemorizar, timerPalabrasNivel;
     private Escucha escucha;
     private JTextField nombre;
@@ -105,9 +105,10 @@ public class GUI extends JFrame {
         JScrollPane scroll = new JScrollPane(areaNombre);
         setFocusable(true); //Que se escuche el teclado en primera fila.
 
-        juego = new JPanel();
+        juego = new JPanel(new GridBagLayout());
+        GridBagConstraints constraintsJuego = new GridBagConstraints();
         juego.setBorder(BorderFactory.createTitledBorder("¡I know that word!"));
-        juego.setPreferredSize(new Dimension(700,200));
+        juego.setPreferredSize(new Dimension(700,400));
         constraints.gridx=0;
         constraints.gridy=2;
         constraints.gridwidth=2;
@@ -115,54 +116,96 @@ public class GUI extends JFrame {
         this.add(juego,constraints);
 
 
-        mostrarMensajeInicial = new JTextArea();
+        mostrarMensajeInicial = new JTextArea(5, 20);
+        constraintsJuego.gridx=0;
+        constraintsJuego.gridy=1;
+        constraintsJuego.gridwidth=4;
+      //constraintsJuego.fill=GridBagConstraints.CENTER;
         mostrarMensajeInicial.setText(MENSAJE_JUEGO_GENERAL);
-        juego.add(mostrarMensajeInicial);
+        juego.add(mostrarMensajeInicial, constraintsJuego);
 
-        mostrarMensajeRonda = new JTextArea();
+        mostrarMensajeRonda = new JTextArea(3, 30);
         mostrarMensajeRonda.setVisible(false);
         mostrarMensajeRonda.setEditable(false);
-        juego.add(mostrarMensajeRonda);
+        constraintsJuego.gridx=0;
+        constraintsJuego.gridy=1;
+        constraintsJuego.gridwidth=3;
+        //constraintsJuego.fill=GridBagConstraints.CENTER;
+        juego.add(mostrarMensajeRonda, constraintsJuego);
 
         botonSi = new JButton("SI");
         botonSi.addActionListener(escucha);
         botonSi.setVisible(false);
-        juego.add(botonSi, BorderLayout.SOUTH);
+        constraintsJuego.gridx=0;
+        constraintsJuego.gridy=3;
+        constraintsJuego.gridwidth=2;
+        //constraintsJuego.fill=GridBagConstraints.BOTH;
+        juego.add(botonSi, constraintsJuego);
 
         botonNo = new JButton("NO");
         botonNo.addActionListener(escucha);
         botonNo.setVisible(false);
-        juego.add(botonNo, BorderLayout.SOUTH);
+        constraintsJuego.gridx=4;
+        constraintsJuego.gridy=3;
+        constraintsJuego.gridwidth=2;
+        //constraintsJuego.fill=GridBagConstraints.BOTH;
+        juego.add(botonNo, constraintsJuego);
 
-        botones = new JPanel();
-        //botones.add(botonSi,botonNo);
 
         validar = new JButton("VALIDAR");
         validar.addActionListener(escucha);
         validar.setVisible(false);
-        juego.add(validar);
+        constraintsJuego.gridx=0;
+        constraintsJuego.gridy=2;
+        constraintsJuego.gridwidth=4;
+        //constraintsJuego.fill=GridBagConstraints.BOTH;
+        juego.add(validar, constraintsJuego);
 
         mostrarPalabra = new JLabel();
         mostrarPalabra.setVisible(false);
-        juego.add(mostrarPalabra);
+        constraintsJuego.gridx=2;
+        constraintsJuego.gridy=2;
+        constraintsJuego.gridwidth=1;
+        //constraintsJuego.fill=GridBagConstraints.BOTH;
+        juego.add(mostrarPalabra, constraintsJuego);
 
         score = new JLabel();
         score.setVisible(false);
-        juego.add(score);
+        constraintsJuego.gridx=0;
+        constraintsJuego.gridy=5;
+        constraintsJuego.gridwidth=2;
+        //constraintsJuego.fill=GridBagConstraints.BOTH;
+        juego.add(score, constraintsJuego);
 
         level = new JLabel();
         level.setVisible(false);
-        juego.add(level);
+        constraintsJuego.gridx=4;
+        constraintsJuego.gridy=5;
+        constraintsJuego.gridwidth=2;
+        //constraintsJuego.fill=GridBagConstraints.BOTH;
+        juego.add(level, constraintsJuego);
 
-        info= new JPanel();
-        //info.add(score,level);
 
         initGame = new JButton("JUGAR");
         initGame.addActionListener(escucha);
         initGame.setVisible(false);
-        juego.add(initGame);
-        timerPalabrasMemorizar = new Timer(1000,escucha);
-        timerPalabrasNivel = new Timer(1000,escucha);
+        constraintsJuego.gridx=0;
+        constraintsJuego.gridy=2;
+        constraintsJuego.gridwidth=4;
+        constraintsJuego.fill=GridBagConstraints.LINE_END;
+        juego.add(initGame, constraintsJuego);
+
+        reset = new JButton("REINICIAR");
+        reset.addActionListener(escucha);
+        reset.setVisible(false);
+        constraintsJuego.gridx=0;
+        constraintsJuego.gridy=2;
+        constraintsJuego.gridwidth=4;
+        constraintsJuego.fill=GridBagConstraints.LINE_END;
+        juego.add(reset, constraintsJuego);
+
+        timerPalabrasMemorizar = new Timer(5000,escucha);
+        timerPalabrasNivel = new Timer(7000,escucha);
 
 
     }
@@ -198,7 +241,7 @@ public class GUI extends JFrame {
 
             if(e.getSource()==timerPalabrasMemorizar){
                 if(counterMemorizada < (modelKnow.sizeArrayPalabrasMemorizar()/2)){
-                    System.out.println("num de palabras a memorizar "+(modelKnow.sizeArrayPalabrasMemorizar()/2)+"");
+                    //System.out.println("num de palabras a memorizar "+(modelKnow.sizeArrayPalabrasMemorizar()/2)+"");
                     mostrarPalabra.setText(modelKnow.devolverPalabraMemorizar(counterMemorizada));
                     counterMemorizada++;
                 }else{
@@ -297,11 +340,11 @@ public class GUI extends JFrame {
 
 
 
-                for (int i = 0; i < modelKnow.sizeArrayPalabrasMemorizar(); i++){
+                /*for (int i = 0; i < modelKnow.sizeArrayPalabrasMemorizar(); i++){
 
                     System.out.println(modelKnow.devolverPalabraMemorizar(i));
 
-                }
+                }*/
 
 
             }
@@ -317,7 +360,20 @@ public class GUI extends JFrame {
                     botonNo.setEnabled(false);
                 }
 
+                if(e.getSource()==reset){
+                    modelKnow.setRonda(1);
+                    reset.setVisible(false);
+                    initGame.setVisible(true);
+                }
 
+                if(modelKnow.getRonda() == 11){
+                    initGame.setVisible(false);
+                    mostrarMensajeInicial.setVisible(false);
+                    mostrarMensajeRonda.setText(modelKnow.mensajePorRonda(11));
+                    mostrarMensajeRonda.setVisible(true);
+                    reset.setVisible(true);
+
+                }
 
 
             if(e.getSource()==validar){
