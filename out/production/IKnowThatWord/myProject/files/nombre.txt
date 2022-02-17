@@ -2,3 +2,5 @@ Santi,1
 Sebas,2
 Isa,5
 Renzo,3
+Sara,2
+Karen,3
