@@ -69,13 +69,44 @@ public class ModelKnow {
         return ronda;
     }
 
+    public void setRonda(int ronda) {
+        this.ronda = ronda;
+    }
 
     /**
      * Advance round in the game.
      */
 
-    public void cambiarRonda(){
-        ronda++;
+    public void cambiarRonda(ArrayList<Jugador> jugadores,String nombreJugador){
+
+        ArrayList<String> jugadoresString = new ArrayList<String>();
+        setRonda(ronda+1);
+        for(int i = 0; i < jugadores.size(); i++){
+        System.out.println("nombreJugador: "+nombreJugador+"");
+            if(jugadores.get(i).getNombre().equals(nombreJugador)){
+
+                String jugadorCompleto = "";
+
+                jugadorCompleto = ""+jugadores.get(i).getNombre()+","+ronda+"";
+                jugadoresString.add(jugadorCompleto);
+
+            }else{
+                System.out.println("nombreJugador: "+jugadores.get(i).getNombre()+"");
+                String jugadorCompleto = "";
+
+                jugadorCompleto = ""+jugadores.get(i).getNombre()+","+jugadores.get(i).getRondaDeJuego()+"";
+                jugadoresString.add(jugadorCompleto);
+            }
+        }
+
+        fileManager.limpiarArchivoTexto();
+
+        for(int i = 0; i < jugadoresString.size(); i++){
+            fileManager.escribirTexto(jugadoresString.get(i));
+        }
+
+
+
         System.out.println(ronda);
     }
 
@@ -395,6 +426,7 @@ public class ModelKnow {
     public void reiniciarContadorAciertos(){
         contadorAciertos = 0;
     }
+
 
 
 }

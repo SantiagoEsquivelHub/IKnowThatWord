@@ -7,11 +7,11 @@ public class FileManager {
     private FileReader fileReader;
     private BufferedReader input;
     private FileWriter fileWriter;
-    private BufferedWriter output;
+    private BufferedWriter output, clean;
 
 
     public ArrayList<Jugador> lecturaFile(String path) {
-            ArrayList<Jugador> frases = new ArrayList<Jugador>();
+            ArrayList<Jugador> jugadores = new ArrayList<Jugador>();
 
             try {
                 fileReader = new FileReader(path);
@@ -28,7 +28,7 @@ public class FileManager {
                     System.out.println("RONDA: "+ronda+"");
 
                     jugador.setRondaDeJuego(ronda);
-                    frases.add(jugador);
+                    jugadores.add(jugador);
 
                     line=input.readLine();
 
@@ -44,45 +44,8 @@ public class FileManager {
                     e.printStackTrace();
                 }
             }
-            return frases;
+            return jugadores;
         }
-
-    public void lecturaEscribirRonda(String path, String rondaVieja, String rondaNueva) {
-        ArrayList<Jugador> frases = new ArrayList<Jugador>();
-
-        try {
-            fileReader = new FileReader(path);
-            input = new BufferedReader(fileReader);
-
-            String line = input.readLine();
-
-
-                Jugador jugador = new Jugador();
-                int coma = line.indexOf(",");
-                jugador.setNombre(line.substring(0,coma));//Posicion anterior de la coma
-                int rondaEliminar = Integer.parseInt(line.substring(coma+1));//Posicion despues de la coma
-                String rondaEliminarString = String.valueOf(rondaEliminar);
-                line.replace(rondaVieja, rondaNueva);
-
-
-                escribirTexto(rondaNueva);
-                jugador.setRondaDeJuego(Integer.parseInt(rondaNueva));
-
-
-
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }finally{
-            try {
-                input.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
 
 
     public ArrayList<String> lecturaFilePalabrasTotales(String path) {
@@ -126,6 +89,25 @@ public class FileManager {
                 e.printStackTrace();
             }
         }
+    }
+
+    public void limpiarArchivoTexto(){
+        try {
+            fileWriter = new FileWriter("src/myProject/files/nombre.txt");
+            clean = new BufferedWriter(fileWriter);
+            clean.write("");
+
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }finally{
+            try {
+                clean.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
     }
 
 
