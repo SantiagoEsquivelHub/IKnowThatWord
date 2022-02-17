@@ -120,7 +120,7 @@ public class ModelKnow {
 
         ArrayList <PalabraNivel> wordsForLevel = new ArrayList<PalabraNivel>();
         Random aleatorio = new Random();
-        int usar = aleatorio.nextInt(palabras.size());
+        int usar = aleatorio.nextInt(palabras.size()+1);
 
         for (int i = 1; i <= level; i++){
             PalabraNivel palabraNivel = new PalabraNivel();

@@ -135,7 +135,7 @@ public class GUI extends JFrame {
         juego.add(botonNo, BorderLayout.SOUTH);
 
         botones = new JPanel();
-        botones.add(botonSi,botonNo);
+        //botones.add(botonSi,botonNo);
 
         validar = new JButton("VALIDAR");
         validar.addActionListener(escucha);
@@ -155,7 +155,7 @@ public class GUI extends JFrame {
         juego.add(level);
 
         info= new JPanel();
-        info.add(score,level);
+        //info.add(score,level);
 
         initGame = new JButton("JUGAR");
         initGame.addActionListener(escucha);
@@ -218,7 +218,8 @@ public class GUI extends JFrame {
 
             if(e.getSource()==timerPalabrasNivel){
                 if(counterNivel < modelKnow.sizeArrayPalabrasNivel()){
-
+                    botonSi.setEnabled(true);
+                    botonNo.setEnabled(true);
                     level.setVisible(true);
                     level.setText("Ronda: "+modelKnow.getRonda()+"");
                     score.setVisible(true);
@@ -308,11 +309,12 @@ public class GUI extends JFrame {
 
                 if (e.getSource() == botonSi) {
                     modelKnow.palabraEsMemorizada(modelKnow.devolverPalabraMemorizarObj(counterNivel-1));
-
+                    botonSi.setEnabled(false);
                 }
 
                 if (e.getSource() == botonNo) {
                     modelKnow.palabraNoEsMemorizada(modelKnow.devolverPalabraMemorizarObj(counterNivel-1));
+                    botonNo.setEnabled(false);
                 }
 
 
@@ -347,6 +349,8 @@ public class GUI extends JFrame {
                     }else{
                         if(opcion == JOptionPane.NO_OPTION){
                             System.exit(0);
+                        }else{
+                            System.exit(0);
                         }
                     }
 
@@ -357,7 +361,8 @@ public class GUI extends JFrame {
                                     + "Obtuviste " + puntosActuales + " de " + puntosPasarRonda + " para pasar de ronda\n"
                                     + "¿Quienes jugar la siguiente repetir la ronda ahora?",
                             "PopUp Dialog", JOptionPane.YES_NO_OPTION);
-
+                    level.setVisible(false);
+                    score.setVisible(false);
                     modelKnow.reiniciarContadorAciertos();//reiniciamos contador para volver a jugar la ronda anterior
                     counterMemorizada = 1;//reiniciamos contador del ciclo del timer
                     counterNivel = 1;
@@ -367,6 +372,8 @@ public class GUI extends JFrame {
 
                     }else{
                         if(opcion == JOptionPane.NO_OPTION){
+                            System.exit(0);
+                        }else{
                             System.exit(0);
                         }
                     }
