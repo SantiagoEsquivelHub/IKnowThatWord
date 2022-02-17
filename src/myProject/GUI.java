@@ -15,7 +15,7 @@ import java.util.Random;
 public class GUI extends JFrame {
     private ModelKnow modelKnow;
     private Header headerProject;
-    private JPanel ingresarNombre, juego;
+    private JPanel ingresarNombre, juego, botones, info;
     private JButton initGame,botonSi,botonNo, validar;
     private Timer timerPalabrasMemorizar, timerPalabrasNivel;
     private Escucha escucha;
@@ -134,6 +134,9 @@ public class GUI extends JFrame {
         botonNo.setVisible(false);
         juego.add(botonNo, BorderLayout.SOUTH);
 
+        botones = new JPanel();
+        botones.add(botonSi,botonNo);
+
         validar = new JButton("VALIDAR");
         validar.addActionListener(escucha);
         validar.setVisible(false);
@@ -150,6 +153,9 @@ public class GUI extends JFrame {
         level = new JLabel();
         level.setVisible(false);
         juego.add(level);
+
+        info= new JPanel();
+        info.add(score,level);
 
         initGame = new JButton("JUGAR");
         initGame.addActionListener(escucha);
@@ -235,7 +241,6 @@ public class GUI extends JFrame {
                 //modelKnow.getRonda();
 
                 if(nombreJugador){
-
                     //Hide the JFieldText
                     bienvenida.setVisible(false);
                     nombre.setVisible(false);
@@ -252,7 +257,7 @@ public class GUI extends JFrame {
                     nombre.setVisible(false);
                     initGame.setVisible(true);
 
-                    fileManager.escribirTexto(""+nombre.getText()+",1");
+                    fileManager.escribirTexto(""+nombre.getText()+","+modelKnow.getRonda()+"");
                     segundaBienvenida.setText("Bienvenido "+nombre.getText()+"");
                     segundaBienvenida.setVisible(true);
                     juego.setVisible(true);
@@ -328,20 +333,9 @@ public class GUI extends JFrame {
                     modelKnow.reiniciarContadorAciertos();//reiniciamos contador para la ronda de juego nueva
                     counterMemorizada = 1;//reiniciamos contador del ciclo del timer
                     counterNivel = 1;
-                    /*int rondaViejaInt = modelKnow.getRonda();
-                    String rondaViejaString = String.valueOf(rondaViejaInt);*/
-                    modelKnow.cambiarRonda();
+                    modelKnow.cambiarRonda(fileManager.lecturaFile(PATH_LECTURA_NOMBRE),nombre.getText());
 
                     //Change text file.
-                    /*int rondaNuevaInt = modelKnow.getRonda();
-                    String rondaNuevaString = String.valueOf(rondaNuevaInt);
-
-                    boolean estaRonda = modelKnow.pintarRondaJugador(fileManager.lecturaFile(PATH_LECTURA_NOMBRE), rondaNuevaInt);
-
-                    if(estaRonda == false){
-                        fileManager.lecturaEscribirRonda(PATH_LECTURA_NOMBRE, rondaViejaString, rondaNuevaString);
-
-                    }*/
 
 
 
