@@ -353,11 +353,13 @@ public class GUI extends JFrame {
                 if (e.getSource() == botonSi) {
                     modelKnow.palabraEsMemorizada(modelKnow.devolverPalabraMemorizarObj(counterNivel-1));
                     botonSi.setEnabled(false);
+                    botonNo.setEnabled(false);
                 }
 
                 if (e.getSource() == botonNo) {
                     modelKnow.palabraNoEsMemorizada(modelKnow.devolverPalabraMemorizarObj(counterNivel-1));
                     botonNo.setEnabled(false);
+                    botonSi.setEnabled(false);
                 }
 
                 if(e.getSource()==reset){

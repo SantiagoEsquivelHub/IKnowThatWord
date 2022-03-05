@@ -1,7 +1,7 @@
-Santi,11
+Santi,10
 Sebas,2
 Isa,5
 Renzo,3
 Sara,2
 Karen,3
-Santiago,1
+Santiago,11
